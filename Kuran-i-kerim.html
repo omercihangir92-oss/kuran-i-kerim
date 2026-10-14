@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kur'an-ı Kerim - Ömercihangir Kurt</title>
+<link rel="stylesheet" href="https://googleapis.com">
+</head>
+<body style="font-family: 'Noto Sans', sans-serif; background-color: #f7f9fa; color: #202124; margin: 0; padding: 20px; line-height: 1.6;">
+
+<h1 style="text-align: center; color: #1a73e8; margin-bottom: 30px;">Kur'an-ı Kerim</h1>
+
+<div id="sure-secici" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 40px;"></div>
+
+<div id="kuran-icerik"></div>
+
+<script>
+const secici = document.getElementById('sure-secici');
+const icerik = document.getElementById('kuran-icerik');
+
+Promise.all([
+fetch('https://alquran.cloud'),
+fetch('https://alquran.cloud'),
+fetch('https://alquran.cloud')
+ ])
+.then(res => Promise.all(res.map(r => r.json())))
+.then(data => {
+const arapca = data[0].data.surahs;
+const turkce = data[1].data.surahs;
+const latin = data[2].data.surahs;
+
+arapca.forEach((sure, sIdx) => {
+const aLink = document.createElement('a');
+aLink.href = #sure-${sure.number}; aLink.style = "display: block; padding: 10px; background: #ffffff; border: 1px solid #dadce0; border-radius: 6px; text-decoration: none; color: #3c4043; text-align: center; font-size: 14px; font-weight: bold;"; aLink.textContent = ``${sure.number}. ${sure.englishName}`;
+secici.appendChild(aLink);
+
+const sDiv = document.createElement('div');
+sDiv.id = sure-${sure.number}`;
+sDiv.style = "background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; margin-bottom: 30px;";
+
+sDiv.innerHTML = <h2 style="color: #1a73e8; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;"&gt;${sure.number}. ${sure.englishName} (${sure.name})</h2>`;
+
+sure.ayyahs.forEach((ayet, aIdx) => {
+const tAyet = turkce[sIdx].ayyahs[aIdx].text;
+const lAyet = latin[sIdx].ayyahs[aIdx].text;
+
+sDiv.innerHTML += &lt;div style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #e0e0e0;"&gt; &lt;p dir="rtl" style="font-family: 'Amiri', serif; font-size: 32px; text-align: right; margin: 0 0 10px 0; color: #000000; line-height: 1.8;"&gt;${ayet.text}</p>
+<p style="font-size: 15px; color: #5f6368; font-style: italic; margin: 0 0 5px 0;">latex
+{lAyet}&lt;/p&gt; &lt;p style="font-size: 16px; margin: 0; color: #202124;"&gt;&lt;strong style="color: #1a73e8;"&gt;
+
+{ayet.numberInSurah}.</strong> ${tAyet}</p>
+</div>`;
+});
+icerik.appendChild(sDiv);
+});
+});
+</script>
+</body>
+</html>
